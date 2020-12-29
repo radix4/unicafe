@@ -10,9 +10,15 @@ const Button = ({ handleClick, feedback }) => (
   <button onClick={handleClick}>{feedback}</button>
 );
 
-const DisplayFeedback = ({ feedback, count }) => (
+const Statistics = ({ feedback, count }) => (
   <div>
     {feedback} {count}
+  </div>
+);
+
+const DisplayPositive = ({ feedback, count }) => (
+  <div>
+    {feedback} {count} %
   </div>
 );
 
@@ -25,6 +31,10 @@ const App = () => {
   const incrementNeutral = () => setNeutral(neutral + 1);
   const incrementBad = () => setBad(bad + 1);
 
+  const all = good + neutral + bad;
+  const average = (good - bad) / all;
+  const positive = (good / all) * 100;
+
   return (
     <div>
       <Header header="give feedback" />
@@ -32,9 +42,12 @@ const App = () => {
       <Button handleClick={incrementNeutral} feedback="neutral" />
       <Button handleClick={incrementBad} feedback="bad" />
       <Header header="statistics" />
-      <DisplayFeedback feedback="good" count={good} />
-      <DisplayFeedback feedback="neutral" count={neutral} />
-      <DisplayFeedback feedback="bad" count={bad} />
+      <Statistics feedback="good" count={good} />
+      <Statistics feedback="neutral" count={neutral} />
+      <Statistics feedback="bad" count={bad} />
+      <Statistics feedback="all" count={all} />
+      <Statistics feedback="average" count={average} />
+      <DisplayPositive feedback="positive" count={positive} />
     </div>
   );
 };
