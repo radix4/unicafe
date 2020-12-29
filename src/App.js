@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 
-const Header = (props) => (
+const Header = ({ header }) => (
   <div>
-    <h1>{props.header}</h1>
+    <h1>{header}</h1>
   </div>
 );
 
-const Button = (props) => {
-  return <button onClick={props.handleClick}>{props.feedback}</button>;
-};
+const Button = ({ handleClick, feedback }) => (
+  <button onClick={handleClick}>{feedback}</button>
+);
 
-const DisplayFeedback = (props) => (
+const DisplayFeedback = ({ feedback, count }) => (
   <div>
-    {props.feedback} {props.count}
+    {feedback} {count}
   </div>
 );
 
