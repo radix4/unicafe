@@ -10,44 +10,89 @@ const Button = ({ handleClick, feedback }) => (
   <button onClick={handleClick}>{feedback}</button>
 );
 
-const Statistics = ({ feedback, count }) => (
+const Buttons = (props) => {
+  return (
+    <div>
+      <Button feedback="good" handleClick={props.incrementGood} />
+      <Button feedback="neutral" handleClick={props.incrementNeutral} />
+      <Button feedback="bad" handleClick={props.incrementBad} />
+    </div>
+  );
+};
+
+const Statistic = ({ feedback, count, percentage }) => (
   <div>
-    {feedback} {count}
+    {feedback} {count} {percentage}
   </div>
 );
 
-const DisplayPositive = ({ feedback, count }) => (
-  <div>
-    {feedback} {count} %
-  </div>
-);
+const Statistics = (props) => {
+  return (
+    <div>
+      <Statistic feedback="good" count={props.good} />
+      <Statistic feedback="neutral" count={props.neutral} />
+      <Statistic feedback="bad" count={props.bad} />
+      <Statistic feedback="all" count={props.allFeedback} />
+      <Statistic feedback="average" count={props.average} />
+      <Statistic feedback="positive" count={props.positive} percentage="%" />
+    </div>
+  );
+};
 
 const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+  const [allFeedback, setAll] = useState(0);
 
-  const incrementGood = () => setGood(good + 1);
-  const incrementNeutral = () => setNeutral(neutral + 1);
-  const incrementBad = () => setBad(bad + 1);
+  const incrementGood = () => {
+    setGood(good + 1);
+    setAll(allFeedback + 1);
+  };
+  const incrementNeutral = () => {
+    setNeutral(neutral + 1);
+    setAll(allFeedback + 1);
+  };
+  const incrementBad = () => {
+    setBad(bad + 1);
+    setAll(allFeedback + 1);
+  };
 
-  const all = good + neutral + bad;
-  const average = (good - bad) / all;
-  const positive = (good / all) * 100;
+  const average = ((good - bad) / allFeedback).toFixed(1);
+  const positive = ((good / allFeedback) * 100).toFixed(1);
+
+  if (allFeedback === 0) {
+    return (
+      <div>
+        <Header header="give feedback" />
+        <Buttons
+          incrementGood={incrementGood}
+          incrementNeutral={incrementNeutral}
+          incrementBad={incrementBad}
+        />
+        <Header header="statistics" />
+        <Statistic feedback="No feedback given" />
+      </div>
+    );
+  }
 
   return (
     <div>
       <Header header="give feedback" />
-      <Button handleClick={incrementGood} feedback="good" />
-      <Button handleClick={incrementNeutral} feedback="neutral" />
-      <Button handleClick={incrementBad} feedback="bad" />
+      <Buttons
+        incrementGood={incrementGood}
+        incrementNeutral={incrementNeutral}
+        incrementBad={incrementBad}
+      />
       <Header header="statistics" />
-      <Statistics feedback="good" count={good} />
-      <Statistics feedback="neutral" count={neutral} />
-      <Statistics feedback="bad" count={bad} />
-      <Statistics feedback="all" count={all} />
-      <Statistics feedback="average" count={average} />
-      <DisplayPositive feedback="positive" count={positive} />
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        allFeedback={allFeedback}
+        average={average}
+        positive={positive}
+      />
     </div>
   );
 };
