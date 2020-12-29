@@ -20,22 +20,30 @@ const Buttons = (props) => {
   );
 };
 
-const Statistic = ({ feedback, count, percentage }) => (
-  <div>
-    {feedback} {count} {percentage}
-  </div>
-);
+const Statistic = ({ feedback, count, percentage }) => {
+  return (
+    <React.Fragment>
+      <tr>
+        <td>{feedback}</td>
+        <td>{count}</td>
+        <td>{percentage}</td>
+      </tr>
+    </React.Fragment>
+  );
+};
 
 const Statistics = (props) => {
   return (
-    <div>
-      <Statistic feedback="good" count={props.good} />
-      <Statistic feedback="neutral" count={props.neutral} />
-      <Statistic feedback="bad" count={props.bad} />
-      <Statistic feedback="all" count={props.allFeedback} />
-      <Statistic feedback="average" count={props.average} />
-      <Statistic feedback="positive" count={props.positive} percentage="%" />
-    </div>
+    <table>
+      <tbody>
+        <Statistic feedback="good" count={props.good} />
+        <Statistic feedback="neutral" count={props.neutral} />
+        <Statistic feedback="bad" count={props.bad} />
+        <Statistic feedback="all" count={props.allFeedback} />
+        <Statistic feedback="average" count={props.average} />
+        <Statistic feedback="positive" count={props.positive} percentage="%" />
+      </tbody>
+    </table>
   );
 };
 
